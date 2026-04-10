@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kiruthika Venkatesan — Algorithms PM · ML Personalization · User Engagement</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0d0d14;--surface:#16162a;--card:#1c1c32;
+  --white:#ffffff;--off:#f0effe;
+  --b1:rgba(255,255,255,.07);--b2:rgba(255,255,255,.13);
+  --muted:rgba(240,239,254,.5);--dim:rgba(240,239,254,.28);
+  --violet:#7c3aed;--violet2:#9f67ff;--violetlt:rgba(124,58,237,.18);
+  --violetglow:rgba(124,58,237,.35);
+  --cyan:#06b6d4;--cyanlt:rgba(6,182,212,.15);
+  --amber:#f59e0b;--amberlt:rgba(245,158,11,.15);
+  --sans:'Inter',sans-serif;
+  --display:'Syne',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--off);font-family:var(--sans);font-weight:300;line-height:1.7;overflow-x:hidden;}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--violet);}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:.9rem 3rem;background:rgba(13,13,20,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--b1);}
+.nl{font-family:var(--display);font-size:1rem;font-weight:800;color:var(--white);text-decoration:none;letter-spacing:-.01em;}
+.nl span{color:var(--violet2);}
+.nr{display:flex;gap:2rem;list-style:none;}
+.nr a{font-size:.65rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;font-family:var(--mono);transition:color .2s;}
+.nr a:hover,.nr a.active{color:var(--violet2);}
+
+/* HERO */
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;position:relative;overflow:hidden;}
+/* Animated grid bg */
+.hero::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,transparent,transparent 59px,rgba(124,58,237,.06) 59px,rgba(124,58,237,.06) 60px),repeating-linear-gradient(90deg,transparent,transparent 59px,rgba(124,58,237,.06) 59px,rgba(124,58,237,.06) 60px);pointer-events:none;}
+.hl{display:flex;flex-direction:column;justify-content:center;padding:9rem 4rem 6rem 5.5rem;position:relative;z-index:1;}
+.hr{display:flex;flex-direction:column;justify-content:center;padding:9rem 3.5rem 6rem;position:relative;z-index:1;}
+
+.eyebrow{display:inline-flex;align-items:center;gap:.6rem;font-family:var(--mono);font-size:.57rem;letter-spacing:.18em;text-transform:uppercase;color:var(--violet2);margin-bottom:1.75rem;opacity:0;animation:up .7s ease .1s forwards;}
+.eyebrow::before{content:'';width:18px;height:1.5px;background:var(--violet2);}
+.hero-name{font-family:var(--display);font-size:clamp(3rem,5vw,5.5rem);line-height:.88;font-weight:800;color:var(--white);margin-bottom:.6rem;opacity:0;animation:up .7s ease .25s forwards;letter-spacing:-.03em;}
+.hero-role{font-family:var(--display);font-size:clamp(1.2rem,2.2vw,2rem);line-height:1;font-weight:600;color:var(--violet2);margin-bottom:1.6rem;opacity:0;animation:up .7s ease .35s forwards;letter-spacing:-.01em;}
+.hero-desc{font-size:.88rem;line-height:1.85;color:var(--muted);max-width:44ch;margin-bottom:2.5rem;opacity:0;animation:up .7s ease .45s forwards;}
+.hero-desc strong{color:var(--white);font-weight:500;}
+.hero-cta{display:flex;gap:.8rem;flex-wrap:wrap;opacity:0;animation:up .7s ease .6s forwards;}
+.btn-p{display:inline-flex;align-items:center;gap:.5rem;background:var(--violet);color:#fff;padding:.82rem 1.75rem;font-family:var(--mono);font-size:.72rem;font-weight:500;letter-spacing:.05em;text-decoration:none;transition:all .22s;}
+.btn-p:hover{background:var(--violet2);transform:translateY(-2px);box-shadow:0 8px 32px var(--violetglow);}
+.btn-s{display:inline-flex;align-items:center;gap:.5rem;background:transparent;color:var(--off);padding:.82rem 1.75rem;font-family:var(--mono);font-size:.72rem;font-weight:500;letter-spacing:.05em;text-decoration:none;border:1px solid var(--b2);transition:all .22s;}
+.btn-s:hover{border-color:var(--violet2);color:var(--violet2);}
+
+/* Hero right: big metric display */
+.hero-metrics{display:flex;flex-direction:column;gap:1px;opacity:0;animation:fade 1s ease .8s forwards;}
+.hm{background:var(--surface);border:1px solid var(--b1);padding:1.5rem 1.75rem;position:relative;overflow:hidden;transition:border-color .25s;}
+.hm:hover{border-color:var(--violetlt);}
+.hm::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--violet);opacity:0;transition:opacity .25s;}
+.hm:hover::before{opacity:1;}
+.hm-n{font-family:var(--display);font-size:3rem;font-weight:800;line-height:1;margin-bottom:.25rem;color:var(--violet2);}
+.hm-l{font-family:var(--mono);font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+
+/* STRIP */
+.strip{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--b1);border-bottom:1px solid var(--b1);background:var(--surface);}
+.si{padding:2rem 2rem;border-right:1px solid var(--b1);transition:background .2s;}
+.si:last-child{border-right:none;}
+.si:hover{background:var(--card);}
+.sn{font-family:var(--display);font-size:2.4rem;font-weight:800;line-height:1;color:var(--violet2);margin-bottom:.22rem;}
+.ss{font-size:.67rem;color:var(--muted);line-height:1.5;font-family:var(--mono);}
+
+/* SECTIONS */
+section{position:relative;z-index:1;}
+.con{max-width:1160px;margin:0 auto;padding:0 3.5rem;}
+.sh{display:flex;align-items:center;gap:1.25rem;margin-bottom:3.5rem;}
+.shn{font-family:var(--mono);font-size:.56rem;color:var(--violet2);letter-spacing:.16em;}
+.sht{font-family:var(--display);font-size:2.2rem;font-weight:800;color:var(--white);line-height:1;letter-spacing:-.02em;}
+.shr{flex:1;height:1px;background:var(--b1);margin-left:.75rem;}
+
+/* EXPERIENCE */
+.exp-sec{padding:7rem 0;background:var(--bg);border-top:1px solid var(--b1);}
+.ei{display:grid;grid-template-columns:200px 1fr;gap:3rem;padding:2.75rem 0;border-bottom:1px solid var(--b1);opacity:0;transform:translateY(22px);transition:opacity .6s,transform .6s;}
+.ei.vis{opacity:1;transform:translateY(0);}
+.ei:last-child{border-bottom:none;}
+.eco{font-family:var(--mono);font-size:.54rem;letter-spacing:.14em;text-transform:uppercase;color:var(--violet2);margin-bottom:.3rem;}
+.edt{font-size:.65rem;color:var(--muted);margin-bottom:.55rem;font-family:var(--mono);}
+.ebdg{display:inline-block;font-family:var(--mono);font-size:.5rem;letter-spacing:.07em;text-transform:uppercase;color:var(--violet2);border:1px solid var(--violetlt);padding:.14rem .48rem;background:rgba(124,58,237,.1);}
+.er{font-family:var(--display);font-size:1.28rem;font-weight:700;line-height:1.15;color:var(--white);margin-bottom:.8rem;letter-spacing:-.01em;}
+.ed{font-size:.82rem;color:var(--muted);line-height:1.78;margin-bottom:1.1rem;}
+.ew{display:flex;flex-wrap:wrap;gap:.4rem;}
+.wt{font-family:var(--mono);font-size:.54rem;letter-spacing:.04em;background:var(--violetlt);color:var(--violet2);border:1px solid rgba(124,58,237,.25);padding:.22rem .52rem;transition:all .2s;}
+.wt:hover{background:var(--violet);color:#fff;}
+
+/* CAPABILITIES */
+.cap-sec{padding:7rem 0;background:var(--surface);border-top:1px solid var(--b1);}
+.cap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--b1);}
+.cg{background:var(--bg);padding:2.25rem;position:relative;overflow:hidden;transition:background .2s;}
+.cg:hover{background:var(--card);}
+.cg::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--violet),var(--cyan),transparent);transform:scaleX(0);transform-origin:left;transition:transform .35s;}
+.cg:hover::before{transform:scaleX(1);}
+.cg-num{font-family:var(--mono);font-size:.52rem;letter-spacing:.14em;color:var(--dim);margin-bottom:.9rem;}
+.cg-title{font-family:var(--display);font-size:1rem;font-weight:700;color:var(--white);margin-bottom:.5rem;letter-spacing:-.01em;}
+.cg-desc{font-size:.74rem;color:var(--muted);line-height:1.65;}
+.cg-metric{margin-top:.9rem;padding:.42rem .7rem;background:var(--violetlt);font-family:var(--mono);font-size:.56rem;color:var(--violet2);letter-spacing:.04em;border-left:2px solid var(--violet);}
+
+/* PROJECTS */
+.proj-sec{padding:7rem 0;background:var(--bg);border-top:1px solid var(--b1);}
+.pg{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--b1);}
+.pc{background:var(--surface);padding:2.75rem;position:relative;overflow:hidden;opacity:0;transform:translateY(22px);transition:opacity .6s,transform .6s,background .2s;}
+.pc.vis{opacity:1;transform:translateY(0);}
+.pc:hover{background:var(--card);}
+.pc::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--violetlt) 0%,transparent 60%);opacity:0;transition:opacity .35s;pointer-events:none;}
+.pc:hover::after{opacity:1;}
+.pnum{font-family:var(--mono);font-size:.52rem;letter-spacing:.14em;color:var(--dim);margin-bottom:1.1rem;}
+.pt{font-family:var(--display);font-size:1.22rem;font-weight:700;line-height:1.2;color:var(--white);margin-bottom:.55rem;letter-spacing:-.01em;position:relative;z-index:1;}
+.ps{font-family:var(--mono);font-size:.52rem;letter-spacing:.07em;color:var(--cyan);margin-bottom:1.2rem;position:relative;z-index:1;}
+.pd{font-size:.8rem;color:var(--muted);line-height:1.78;margin-bottom:1.75rem;position:relative;z-index:1;}
+.pr2{border-top:1px solid var(--b1);padding-top:1.4rem;display:grid;grid-template-columns:1fr 1fr;gap:1rem;position:relative;z-index:1;}
+.rn{font-family:var(--display);font-size:1.75rem;font-weight:800;line-height:1;margin-bottom:.2rem;color:var(--violet2);}
+.rl{font-size:.58rem;color:var(--dim);line-height:1.4;font-family:var(--mono);}
+
+/* SKILLS */
+.sk-sec{padding:7rem 0;background:var(--surface);border-top:1px solid var(--b1);}
+.sk-grid{display:grid;grid-template-columns:1fr 2.4fr;gap:5rem;align-items:start;}
+.sk-left{position:relative;}
+.sk-q{font-family:var(--display);font-size:1.45rem;font-weight:700;color:var(--white);line-height:1.35;padding-top:1.5rem;letter-spacing:-.01em;}
+.sk-q::before{content:'';position:absolute;top:0;left:0;width:32px;height:2px;background:linear-gradient(90deg,var(--violet),var(--cyan));}
+.sk-q em{font-style:italic;color:var(--violet2);font-weight:600;}
+.skg{display:flex;flex-direction:column;gap:1.75rem;}
+.skgl{font-family:var(--mono);font-size:.54rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem;}
+.skgt{display:flex;flex-wrap:wrap;gap:.4rem;}
+.st{font-size:.74rem;padding:.28rem .72rem;background:transparent;color:var(--muted);border:1px solid var(--b1);transition:all .2s;cursor:default;font-family:var(--sans);}
+.st:hover{border-color:var(--b2);color:var(--off);}
+.st.vi{background:var(--violetlt);color:var(--violet2);border-color:rgba(124,58,237,.3);font-weight:500;}
+.st.vi:hover{background:var(--violet);color:#fff;border-color:var(--violet);}
+.st.cy{background:var(--cyanlt);color:var(--cyan);border-color:rgba(6,182,212,.25);font-weight:500;}
+.st.cy:hover{background:var(--cyan);color:#0d0d14;border-color:var(--cyan);}
+
+/* EDU */
+.edu-sec{padding:5rem 0;background:var(--bg);border-top:1px solid var(--b1);}
+.edu-g{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--b1);}
+.ec{background:var(--surface);padding:2.25rem;border-left:2px solid transparent;transition:all .25s;}
+.ec:hover{background:var(--card);border-left-color:var(--violet);}
+.ed2{font-family:var(--display);font-size:1.05rem;font-weight:700;color:var(--white);margin-bottom:.3rem;}
+.es{font-size:.72rem;color:var(--muted);margin-bottom:.8rem;font-family:var(--mono);}
+.er2{display:flex;gap:1.5rem;align-items:center;}
+.eg{font-family:var(--mono);font-size:.6rem;color:var(--violet2);letter-spacing:.08em;font-weight:500;}
+.edt2{font-family:var(--mono);font-size:.6rem;color:var(--dim);letter-spacing:.06em;}
+
+/* CONTACT */
+.ct-sec{padding:9rem 0;text-align:center;background:var(--bg);position:relative;overflow:hidden;border-top:1px solid var(--b1);}
+.ct-sec::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:800px;height:800px;border-radius:50%;background:radial-gradient(circle,var(--violetglow) 0%,transparent 65%);pointer-events:none;}
+.ct-tag{font-family:var(--mono);font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:1.5rem;display:flex;align-items:center;justify-content:center;gap:.75rem;position:relative;z-index:1;}
+.ct-tag::before,.ct-tag::after{content:'';display:inline-block;width:28px;height:1px;background:var(--b2);}
+.ct-h{font-family:var(--display);font-size:clamp(2.8rem,5.5vw,4.5rem);font-weight:800;color:var(--white);line-height:1;margin-bottom:1rem;position:relative;z-index:1;letter-spacing:-.03em;}
+.ct-h em{color:var(--violet2);font-style:italic;font-weight:600;}
+.ct-sub{font-size:.8rem;color:var(--muted);margin-bottom:3rem;position:relative;z-index:1;font-family:var(--mono);}
+.ct-links{display:flex;justify-content:center;gap:1.25rem;flex-wrap:wrap;position:relative;z-index:1;}
+.cl{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.64rem;letter-spacing:.06em;color:var(--muted);text-decoration:none;padding:.75rem 1.5rem;border:1px solid var(--b2);transition:all .25s;}
+.cl:hover{color:var(--violet2);border-color:var(--violetlt);background:var(--violetlt);}
+
+footer{background:#08080f;border-top:1px solid var(--b1);padding:1.35rem 3.5rem;display:flex;justify-content:space-between;align-items:center;}
+.fn{font-family:var(--display);font-size:.85rem;color:rgba(255,255,255,.18);font-weight:600;}
+.fr{font-family:var(--mono);font-size:.52rem;letter-spacing:.08em;color:rgba(255,255,255,.12);}
+
+@keyframes up{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fade{from{opacity:0;}to{opacity:1;}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nl">K<span>.</span>V</a>
+  <ul class="nr">
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#capabilities">Capabilities</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hl">
+    <p class="eyebrow">Algorithms PM · ML Personalization · User Engagement · San Francisco</p>
+    <h1 class="hero-name">Kiruthika<br>Venkatesan</h1>
+    <p class="hero-role">Algorithms Product Manager</p>
+    <p class="hero-desc">
+      Leading <strong>ML algorithm and personalization platform products</strong> — collaborating with ML engineers, researchers, data scientists, and designers to integrate AI/ML models that drive user engagement and retention. Data-driven innovator translating <strong>complex algorithmic concepts</strong> into meaningful user experiences and personalization moats.
+    </p>
+    <div class="hero-cta">
+      <a href="#capabilities" class="btn-p">Algorithm Capabilities →</a>
+      <a href="#contact" class="btn-s">Get in Touch</a>
+    </div>
+  </div>
+  <div class="hr">
+    <div class="hero-metrics">
+      <div class="hm"><div class="hm-n">84%</div><div class="hm-l">Personalization algorithm platform adoption · 6 months</div></div>
+      <div class="hm"><div class="hm-n">73%</div><div class="hm-l">ML algorithm precision improvement · 1-in-9 → 1-in-34</div></div>
+      <div class="hm"><div class="hm-n">100%</div><div class="hm-l">Algorithm explainability adoption · SHAP-based platform</div></div>
+      <div class="hm"><div class="hm-n">44%</div><div class="hm-l">User engagement improvement · personalization discovery at scale</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="strip">
+  <div class="si"><div class="sn">5+</div><div class="ss">Years leading ML algorithm and personalization platform products</div></div>
+  <div class="si"><div class="sn">75B+</div><div class="ss">Daily user interactions processed · personalization algorithm strategy</div></div>
+  <div class="si"><div class="sn">SHAP</div><div class="ss">Algorithm explainability expertise · transparent ML decision-making</div></div>
+  <div class="si"><div class="sn">41%</div><div class="ss">User retention improvement · discovery algorithm + personalization moat</div></div>
+</div>
+
+<section class="exp-sec" id="experience">
+  <div class="con">
+    <div class="sh"><span class="shn">01</span><h2 class="sht">Experience</h2><div class="shr"></div></div>
+
+    <div class="ei">
+      <div>
+        <div class="eco">FINRA USA</div>
+        <div class="edt">May 2025 – Sep 2025</div>
+        <div class="ebdg">PM Co-op · Algorithms</div>
+      </div>
+      <div>
+        <div class="er">Product Manager Co-op<br>ML Algorithms & Personalization Platform</div>
+        <p class="ed">Led personalization strategy for a platform processing 75B+ daily user interactions — discovered impactful opportunities to apply ML algorithms; collaborated with ML engineers, data scientists, and backend engineers to integrate AI/ML models enhancing user engagement and retention. Defined product requirements for ML anomaly detection and recommendation models. Implemented SHAP-based explainability tooling enabling stakeholders to understand personalization algorithm outputs. Communicated complex algorithmic concepts to non-technical stakeholders; built KPI frameworks tracking user engagement, retention, and algorithm performance.</p>
+        <div class="ew">
+          <span class="wt">↑34% user engagement</span>
+          <span class="wt">ML precision 1-in-9 → 1-in-34</span>
+          <span class="wt">73% personalization accuracy</span>
+          <span class="wt">↑40% stakeholder alignment</span>
+          <span class="wt">↑40% data-informed decisions</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ei">
+      <div>
+        <div class="eco">Cognizant</div>
+        <div class="edt">Jul 2021 – Aug 2024</div>
+        <div class="ebdg">Full-time · 3 yrs</div>
+      </div>
+      <div>
+        <div class="er">Senior Product Manager<br>ML Algorithms & Personalization Systems</div>
+        <p class="ed">Led cross-functional teams developing sophisticated personalization algorithms — collaborated with ML engineers, researchers, data scientists, backend and frontend engineers, and designers to integrate AI/ML models; built a personalization moat strengthening competitive edge. Built observability and SHAP-based explainability into ML systems. Demonstrated deep understanding of user experience design — translated complex algorithms into meaningful user experiences. Drove growth through discovery algorithms applying machine learning, statistics, and operations research.</p>
+        <div class="ew">
+          <span class="wt">84% personalization adoption · 6 months</span>
+          <span class="wt">84% explainability adoption</span>
+          <span class="wt">↑41% user retention</span>
+          <span class="wt">↑37% user engagement</span>
+          <span class="wt">↑38% discovery growth</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ei">
+      <div>
+        <div class="eco">Cognizant</div>
+        <div class="edt">Jun 2020 – Jul 2021</div>
+        <div class="ebdg">Full-time · 1 yr</div>
+      </div>
+      <div>
+        <div class="er">Associate Product Manager<br>ML Algorithms & User Engagement Platform</div>
+        <p class="ed">Discovered opportunities to apply ML algorithms to user engagement — identified through data analysis that 43% of users experienced friction in personalization surfaces. Defined ML algorithm requirements for recommendation and personalization improvements. Collaborated with ML engineers and data scientists to ship data-informed solutions. Applied machine learning expertise and strategic thinking to translate complex ML outputs into intuitive user experiences.</p>
+        <div class="ew">
+          <span class="wt">↓29% engagement failures</span>
+          <span class="wt">↑22% personalization reliability</span>
+          <span class="wt">↑30% user-centric reliability</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cap-sec" id="capabilities">
+  <div class="con">
+    <div class="sh"><span class="shn">02</span><h2 class="sht">Algorithm Capabilities</h2><div class="shr"></div></div>
+    <div class="cap-grid">
+
+      <div class="cg">
+        <div class="cg-num">01 / 06</div>
+        <div class="cg-title">Personalization Algorithm Strategy</div>
+        <div class="cg-desc">Leads personalization algorithm strategy — discovers impactful opportunities to apply ML algorithms in partnership with business leaders, provides strategic direction for personalization roadmaps, and builds personalization moats that strengthen competitive edge across user engagement surfaces.</div>
+        <div class="cg-metric">84% platform adoption · personalization moat established</div>
+      </div>
+
+      <div class="cg">
+        <div class="cg-num">02 / 06</div>
+        <div class="cg-title">ML Algorithm Development & Integration</div>
+        <div class="cg-desc">Collaborates with ML engineers, researchers, data scientists, backend and frontend engineers, and designers to develop and implement sophisticated personalization algorithms — integrating AI/ML models including recommendation engines, anomaly detection, and discovery algorithms into product offerings.</div>
+        <div class="cg-metric">ML precision 1-in-9 → 1-in-34 · 73% personalization accuracy</div>
+      </div>
+
+      <div class="cg">
+        <div class="cg-num">03 / 06</div>
+        <div class="cg-title">SHAP Explainability & Algorithm Transparency</div>
+        <div class="cg-desc">Defines product requirements for SHAP-based algorithm explainability — builds observability into ML systems, enables non-technical stakeholders to understand personalization algorithm outputs, and makes algorithm decision-making transparent across cross-disciplinary teams.</div>
+        <div class="cg-metric">100% explainability adoption · transparent ML decision-making</div>
+      </div>
+
+      <div class="cg">
+        <div class="cg-num">04 / 06</div>
+        <div class="cg-title">User Data Analysis & Data-Informed Decisions</div>
+        <div class="cg-desc">Analyzes user data to uncover insights and drive data-informed decision-making — builds KPI frameworks tracking user engagement, retention, and algorithm performance metrics; continuously monitors and refines personalization strategies to ensure they meet user needs and business objectives.</div>
+        <div class="cg-metric">↑40% data-informed roadmap decisions · ↑34% user retention</div>
+      </div>
+
+      <div class="cg">
+        <div class="cg-num">05 / 06</div>
+        <div class="cg-title">Non-Technical Stakeholder Communication</div>
+        <div class="cg-desc">Communicates complex algorithmic concepts to non-technical stakeholders — translates ML model behavior, algorithm tradeoffs, and data analysis findings into executive-level roadmap proposals; fosters cross-disciplinary collaboration between ML engineering, data science, and design.</div>
+        <div class="cg-metric">↑40% stakeholder alignment · 100% cross-disciplinary adoption</div>
+      </div>
+
+      <div class="cg">
+        <div class="cg-num">06 / 06</div>
+        <div class="cg-title">User Experience Design & Growth</div>
+        <div class="cg-desc">Deep understanding of user experience design and its impact on product success — translates complex algorithms into meaningful user experiences driving tangible business outcomes; drives growth through discovery algorithms applying machine learning, statistics, and operations research.</div>
+        <div class="cg-metric">↑33% user satisfaction · ↑41% personalization-driven growth</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="proj-sec" id="projects">
+  <div class="con">
+    <div class="sh"><span class="shn">03</span><h2 class="sht">Key Projects</h2><div class="shr"></div></div>
+    <div class="pg">
+      <div class="pc">
+        <div class="pnum">PROJECT 01 / 02</div>
+        <h3 class="pt">ML Personalization Algorithm Platform: User Engagement, Retention & Discovery at Scale</h3>
+        <div class="ps">18 MONTHS · LEAD PM · ML · PYTHON · SHAP · REST APIs · SQL · RECOMMENDATION ALGORITHMS · DATA SCIENCE</div>
+        <p class="pd">Personalization was fragmented — users experienced 23% QoQ growth in engagement failures with no unified ML algorithm strategy. Led personalization strategy: collaborated with ML engineers, researchers, data scientists, backend and frontend engineers, and designers to integrate AI/ML models; defined requirements for recommendation and personalization algorithms; analyzed user data; built SHAP-based explainability for algorithm transparency; provided strategic direction aligned with business goals; continuously monitored and refined personalization strategies.</p>
+        <div class="pr2">
+          <div><div class="rn">44%</div><div class="rl">User engagement improvement</div></div>
+          <div><div class="rn">84%</div><div class="rl">Algorithm accuracy achieved</div></div>
+          <div><div class="rn">41%</div><div class="rl">Retention improved</div></div>
+          <div><div class="rn">100%</div><div class="rl">Explainability adoption</div></div>
+        </div>
+      </div>
+      <div class="pc">
+        <div class="pnum">PROJECT 02 / 02</div>
+        <h3 class="pt">SHAP-Based Algorithm Explainability & Data-Informed Personalization Platform</h3>
+        <div class="ps">10 MONTHS · PM · ML · SHAP · PYTHON · DATA SCIENCE · RECOMMENDATION ALGORITHMS · ANALYTICS</div>
+        <p class="pd">Personalization algorithm decisions were opaque — non-technical stakeholders could not understand why the platform served certain content, eroding trust and blocking data-informed decision-making. Defined product requirements for SHAP-based algorithm explainability; communicated complex algorithmic concepts to non-technical stakeholders; collaborated with ML engineers and researchers to build transparency into personalization models; fostered cross-disciplinary collaboration between ML engineering, data science, and design.</p>
+        <div class="pr2">
+          <div><div class="rn">100%</div><div class="rl">Explainability adoption</div></div>
+          <div><div class="rn">36%</div><div class="rl">Data-informed decisions improved</div></div>
+          <div><div class="rn">33%</div><div class="rl">User retention improved</div></div>
+          <div><div class="rn">100%</div><div class="rl">Strategy alignment achieved</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sk-sec" id="skills">
+  <div class="con">
+    <div class="sh"><span class="shn">04</span><h2 class="sht">Skills & Stack</h2><div class="shr"></div></div>
+    <div class="sk-grid">
+      <div class="sk-left">
+        <p class="sk-q">Translating <em>complex algorithms</em> into personalization moats — one data-informed decision at a time.</p>
+      </div>
+      <div class="skg">
+        <div>
+          <div class="skgl">Personalization & Algorithms</div>
+          <div class="skgt">
+            <span class="st vi">ML Personalization</span>
+            <span class="st vi">Recommendation Algorithms</span>
+            <span class="st vi">Discovery Algorithms</span>
+            <span class="st vi">Personalization Moat</span>
+            <span class="st vi">User Engagement & Retention</span>
+            <span class="st">Algorithm Strategy & Roadmap</span>
+          </div>
+        </div>
+        <div>
+          <div class="skgl">ML & Data Science</div>
+          <div class="skgt">
+            <span class="st cy">Machine Learning</span>
+            <span class="st cy">SHAP Explainability</span>
+            <span class="st cy">Anomaly Detection</span>
+            <span class="st cy">AI/ML Model Integration</span>
+            <span class="st cy">Statistics & Operations Research</span>
+            <span class="st">Python · SQL · Data Analysis</span>
+          </div>
+        </div>
+        <div>
+          <div class="skgl">Cross-functional & Product</div>
+          <div class="skgt">
+            <span class="st vi">ML Engineers & Researchers</span>
+            <span class="st vi">Data Scientists</span>
+            <span class="st vi">Backend & Frontend Engineers</span>
+            <span class="st vi">Designers</span>
+            <span class="st">Non-technical Stakeholders</span>
+            <span class="st">KPI Frameworks</span>
+            <span class="st">UX Design</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="edu-sec">
+  <div class="con">
+    <div class="sh"><span class="shn">05</span><h2 class="sht">Education</h2><div class="shr"></div></div>
+    <div class="edu-g">
+      <div class="ec">
+        <div class="ed2">MS Information Technology</div>
+        <div class="es">University of Denver · Applied ML, Data Science & Statistics · GPA 3.97</div>
+        <div class="er2"><span class="eg">Currently enrolled</span><span class="edt2">2024 – 2026</span></div>
+      </div>
+      <div class="ec">
+        <div class="ed2">BE Computer Science</div>
+        <div class="es">Anna University · GPA 3.8</div>
+        <div class="er2"><span class="edt2">2017 – 2021</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ct-sec" id="contact">
+  <div class="con">
+    <div class="ct-tag">Open to opportunities</div>
+    <h2 class="ct-h">Building algorithms that make<br>users <em>come back.</em></h2>
+    <p class="ct-sub">Algorithms PM · ML Personalization · User Engagement · San Francisco, CA</p>
+    <div class="ct-links">
+      <a href="mailto:kiruthikavenkat2704@gmail.com" class="cl">✉ &nbsp;kiruthikavenkat2704@gmail.com</a>
+      <a href="tel:+17208135590" class="cl">✆ &nbsp;(720) 813-5590</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="fn">Kiruthika Venkatesan</span>
+  <span class="fr">Algorithms PM · ML Personalization · User Engagement · Portfolio 2026</span>
+</footer>
+
+<script>
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('vis'),i*90);});
+},{threshold:.07});
+document.querySelectorAll('.ei,.pc').forEach(el=>obs.observe(el));
+const secs=document.querySelectorAll('section[id]');
+const links=document.querySelectorAll('.nr a');
+window.addEventListener('scroll',()=>{
+  let cur='';
+  secs.forEach(s=>{if(window.scrollY>=s.offsetTop-150)cur=s.id;});
+  links.forEach(a=>{a.classList.toggle('active',a.getAttribute('href')==='#'+cur);});
+});
+</script>
+</body>
+</html>
